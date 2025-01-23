@@ -1,0 +1,30 @@
+{
+  "apps": [
+    {
+      "name": "userbot",
+      "script": "/root/userbot.py",
+      "interpreter": "python",
+      "cwd": "/root/",
+      "args": ["--some-arg"],
+      "autorestart": true,
+      "watch": false,
+      "max_memory_restart": "200M",
+      "error_file": "/var/log/pm2/userbot-error.log",
+      "out_file": "/var/log/pm2/userbot-out.log",
+      "log_date_format": "YYYY-MM-DD HH:mm Z"
+    },
+    {
+      "name": "parser",
+      "script": "/root/____PARSER2____/TGPMwithoutGUI.py",
+      "interpreter": "python",
+      "cwd": "/root/____PARSER2____/",
+      "args": [],
+      "autorestart": true,
+      "watch": false,
+      "max_memory_restart": "100M",
+      "error_file": "/var/log/pm2/parser-error.log",
+      "out_file": "/var/log/pm2/parser-out.log",
+      "log_date_format": "YYYY-MM-DD HH:mm Z"
+    }
+  ]
+}
