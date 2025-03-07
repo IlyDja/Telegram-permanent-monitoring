@@ -3,6 +3,7 @@ from telethon import TelegramClient, events
 import time
 import os
 from random import randint, choice
+import asyncio
 # import logging
 # logging.basicConfig(
 #     filename='app.log',
@@ -269,7 +270,7 @@ def start_monitoring():
                         # если сообщение в мониторящемся чате исходящее, значит не отвечаем [самому себе]
                         if message_obj.out:
                             break
-                        time.sleep(randint(reply_range_start, reply_range_end))
+                        await asyncio.sleep(randint(reply_range_start, reply_range_end))
                         try:
                             await client.send_message(channel_id, choice(promo_texts), reply_to=mes_id)
                         except:
