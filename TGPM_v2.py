@@ -110,7 +110,7 @@ async def form_and_send_storymess():
             map(lambda username: username if username[0] == '@' else '@' + username, five_usernames))
         for el in os.listdir(os.getcwd()):
             if el.startswith('pic_to_story'):
-                await client.send_message('https://t.me/brgtjfj', message=caption, file=el)
+                await client.send_message(spec_channel_link, message=caption, file=el)
                 break
 
 
