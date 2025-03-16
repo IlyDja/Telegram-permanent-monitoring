@@ -71,6 +71,10 @@ try:
         keywords = list({line.strip().lower() for line in keywords_file.readlines() if line.strip()})
         promo_texts = promo_file.read().split('\n---------------------------------\n')
         reply_range_start, reply_range_end = map(int, reply_range_file.read().split())
+        if reply_range_start > 60:
+            reply_range_start = 59
+        if reply_range_end > 60:
+            reply_range_end = 60
         client = manual_authorization(PHONE_NUMBER, PASSWORD)
         usernames_to_stories = set()
 except Exception as e:
@@ -111,6 +115,7 @@ async def form_and_send_storymess():
         for el in os.listdir(os.getcwd()):
             if el.startswith('pic_to_story'):
                 await client.send_message(spec_channel_link, message=caption, file=el)
+                #client.disconnect()
                 break
 
 
@@ -253,6 +258,10 @@ def start_monitoring():
                 # устанавливаем диапазон времени ответа
                 elif mess_text.startswith('rt '):
                     reply_range_start, reply_range_end = map(int, mess_text.split()[1:])
+                    if reply_range_start > 60:
+                        reply_range_start = 59
+                    if reply_range_end > 60:
+                        reply_range_end = 60
                     with open("reply_range.txt", "w", encoding='utf-8') as file:
                         file.writelines(line + " " for line in (str(reply_range_start), str(reply_range_end)))
                     await client.send_message(
