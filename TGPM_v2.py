@@ -71,10 +71,6 @@ try:
         keywords = list({line.strip().lower() for line in keywords_file.readlines() if line.strip()})
         promo_texts = promo_file.read().split('\n---------------------------------\n')
         reply_range_start, reply_range_end = map(int, reply_range_file.read().split())
-        if reply_range_start > 60:
-            reply_range_start = 59
-        if reply_range_end > 60:
-            reply_range_end = 60
         client = manual_authorization(PHONE_NUMBER, PASSWORD)
         usernames_to_stories = set()
 except Exception as e:
@@ -104,7 +100,7 @@ except Exception as e:
 
 async def form_and_send_storymess():
     """
-    generates and sends posts/s with a picture and marked users to a special chat/channel
+    generates and sends post/s with a picture and marked users to a special chat/channel
     for further work (transformation into a story)
     """
     global usernames_to_stories
@@ -123,15 +119,15 @@ def start_monitoring():
     result_label.config(text='Мониторинг...')
     root.update()
     while True:
-        cache = set()  # декоратор детектил некоторые сообщения как новые несколько раз. Пришлось добавить кэш сообщений
+        #cache = set()  # декоратор детектил некоторые сообщения как новые несколько раз. Пришлось добавить кэш сообщений
 
         @client.on(events.NewMessage(chats=links))
         async def handler(event):
             message_obj = event.message
             mes_id = message_obj.id
-            if mes_id in cache:
-                return
-            cache.add(mes_id)
+            # if mes_id in cache:
+            #     return
+            # cache.add(mes_id)
 
             # проверяем если сообщение найдено в папке Избранное
             if hasattr(message_obj.peer_id, 'user_id'):
@@ -258,10 +254,6 @@ def start_monitoring():
                 # устанавливаем диапазон времени ответа
                 elif mess_text.startswith('rt '):
                     reply_range_start, reply_range_end = map(int, mess_text.split()[1:])
-                    if reply_range_start > 60:
-                        reply_range_start = 59
-                    if reply_range_end > 60:
-                        reply_range_end = 60
                     with open("reply_range.txt", "w", encoding='utf-8') as file:
                         file.writelines(line + " " for line in (str(reply_range_start), str(reply_range_end)))
                     await client.send_message(
