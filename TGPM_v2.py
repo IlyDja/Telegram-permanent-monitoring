@@ -1,5 +1,6 @@
 from telethon import TelegramClient, events
 import time
+from datetime import datetime
 import os
 from random import randint, choice
 import tkinter as tk
@@ -28,9 +29,7 @@ def never_retrieved_exceptions_handler(loop, context):  # обработчик "
 
 def manual_authorization(PHONE_NUMBER, PASSWORD):
     if 'telethon_session.session' not in os.listdir(os.getcwd()):
-        print(1)
         client = TelegramClient('telethon_session', API_ID, API_HASH, system_version="4.10.5 beta x64")
-        print(2)
 
         def callback():
             with open('code.txt', 'w', encoding='utf-8') as code_file:
@@ -283,6 +282,7 @@ def start_monitoring():
                         reply_to=mes_id
                     )
                     client.disconnect()
+            # если вне Избранного
             else:
                 for keyword in keywords:
                     if keyword in message_obj.text.lower():
@@ -311,6 +311,9 @@ def start_monitoring():
 
                         client.disconnect()
                         break
+                    # если дисконнект долго не производится, то видимо память переполняется
+                    if datetime.now().minute == 30:
+                        client.disconnect()
 
         try:
             with client:
