@@ -312,7 +312,7 @@ def start_monitoring():
                         client.disconnect()
                         break
                     # если дисконнект долго не производится, то видимо память переполняется
-                    if datetime.now().minute == 30:
+                    if not datetime.now().minute % 10:
                         client.disconnect()
 
         try:
